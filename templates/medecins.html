@@ -1,0 +1,49 @@
+<!-- C:\Users\LENOVO\Desktop\projet_santé_admin\projet_santé_admin\templates\medecins.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<section class="medecins-section">
+    <div class="section-header">
+        <h2 class="section-title">Liste des médecins</h2>
+        <a href="{{ url_for('ajouter_medecin') }}" class="btn-primary">
+            <ion-icon name="add-circle-outline"></ion-icon>
+            Ajouter un médecin
+        </a>
+    </div>
+
+    <div class="search-bar">
+        <input type="text" placeholder="Rechercher un médecin..." class="search-input">
+        <button class="search-btn"><ion-icon name="search-outline"></ion-icon></button>
+    </div>
+    
+    <div class="medecins-grid">
+        {% for medecin in medecins %}
+        <div class="medecin-card animate-float" style="--delay: {{ loop.index0 * 0.1 }}s">
+            <div class="medecin-avatar">
+                <div class="avatar-shape">
+                    {{ medecin.prenom[0] }}{{ medecin.nom[0] }}
+                </div>
+            </div>
+
+            <div class="medecin-info">
+                <h3>Dr. {{ medecin.prenom }} {{ medecin.nom }}</h3>
+                <p class="specialite">{{ medecin.specialite }}</p>
+                <p class="cabinet">{{ medecin.cabinet }}</p>
+
+                <div class="dispo-badges">
+                    {% for jour in medecin.disponibilites %}
+                    <span class="dispo-badge">{{ jour }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="card-actions">
+                <a href="{{ url_for('disponibilite', id=medecin.id) }}" class="btn-dispo">Gérer disponibilités</a>
+                <a href="{{ url_for('modifier_medecin', id=medecin.id) }}" class="btn-modifier">Modifier</a>
+                <a href="{{ url_for('supprimer_medecin', id=medecin.id) }}" class="btn-supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce médecin ?')">Supprimer</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,40 @@
+<!-- C:\Users\LENOVO\Desktop\projet_santé_admin\projet_santé_admin\templates\disponibilite.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<section class="disponibilite-section">
+    <h2 class="section-title">Disponibilités du Dr. {{ medecin.prenom }} {{ medecin.nom }}</h2>
+    
+    <div class="dispo-container">
+        <div class="medecin-summary">
+            <div class="summary-shape">
+                <h3>{{ medecin.prenom[0] }}{{ medecin.nom[0] }}</h3>
+            </div>
+            <div class="summary-info">
+                <h3>Dr. {{ medecin.prenom }} {{ medecin.nom }}</h3>
+                <p>{{ medecin.specialite }}</p>
+                <p>{{ medecin.cabinet }}</p>
+            </div>
+        </div>
+        
+        <form method="POST" class="dispo-form">
+            <h3>Modifier les disponibilités</h3>
+            
+            <div class="jours-container">
+                {% for jour in jours_semaine %}
+                <label class="jour-checkbox">
+                    <input type="checkbox" name="jours" value="{{ jour }}" 
+                           {% if jour in medecin.disponibilites %}checked{% endif %}>
+                    <span class="checkmark">{{ jour }}</span>
+                </label>
+                {% endfor %}
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-save">Enregistrer</button>
+                <a href="{{ url_for('liste_medecins') }}" class="btn-cancel">Annuler</a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

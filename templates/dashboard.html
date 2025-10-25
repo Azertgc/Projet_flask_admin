@@ -1,0 +1,74 @@
+<!-- C:\Users\LENOVO\Desktop\projet_santé_admin\projet_santé_admin\templates\dashboard.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<section class="dashboard-section">
+    <h2 class="section-title">Tableau de bord</h2>
+    
+    <div class="stats-container">
+        <div class="stat-card animate-slide-up" style="--delay: 0.1s">
+            <div class="stat-icon">
+                <div class="icon-shape shape-1">
+                    <ion-icon name="person-outline"></ion-icon>
+                </div>
+            </div>
+            <div class="stat-info">
+                <h3>Médecins</h3>
+                <p class="stat-number">{{ stats.nb_medecins }}</p>
+            </div>
+        </div>
+        
+        <div class="stat-card animate-slide-up" style="--delay: 0.3s">
+            <div class="stat-icon">
+                <div class="icon-shape shape-2">
+                    <ion-icon name="people"></ion-icon>
+                </div>
+            </div>
+            <div class="stat-info">
+                <h3>Patients</h3>
+                <p class="stat-number">{{ stats.nb_patients }}</p>
+            </div>
+        </div>
+        
+        <div class="stat-card animate-slide-up" style="--delay: 0.5s">
+            <div class="stat-icon">
+                <div class="icon-shape shape-3">
+                    <ion-icon name="calendar"></ion-icon>
+                </div>
+            </div>
+            <div class="stat-info">
+                <h3>Rendez-vous</h3>
+                <p class="stat-number">{{ stats.nb_rendez_vous }}</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="recent-appointments">
+        <h3>Rendez-vous récents</h3>
+        
+        <div class="appointments-table">
+            <div class="table-header">
+                <div class="header-item">Patient</div>
+                <div class="header-item">Médecin</div>
+                <div class="header-item">Date</div>
+                <div class="header-item">Statut</div>
+            </div>
+            
+            {% for rv in recent_rv %}
+            <div class="table-row animate-fade-in" style="--delay: {{ 0.1 + loop.index0 * 0.1 }}s">
+                <div class="row-item">{{ rv.patient_nom }}</div>
+                <div class="row-item">{{ rv.medecin_nom }}</div>
+                <div class="row-item">{{ rv.date_formatted }}</div>
+                <div class="row-item">
+                    <span class="status-badge {{ 'effectue' if rv.effectue else 'a-venir' }}">
+                        {{ 'Effectué' if rv.effectue else 'À venir' }}
+                    </span>
+                    <a href="{{ url_for('modifier_rendez_vous', id=rv.id) }}" class="btn-modifier">Modifier</a>
+                    <a href="{{ url_for('supprimer_rendez_vous', id=rv.id) }}" class="btn-supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce rendez-vous ?')">Supprimer</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

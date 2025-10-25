@@ -1,0 +1,35 @@
+<!-- C:\Users\LENOVO\Desktop\projet_santé_admin\projet_santé_admin\templates\patients.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<section class="patients-section">
+    <h2 class="section-title">Liste des patients</h2>
+    
+    <div class="search-bar">
+        <input type="text" placeholder="Rechercher un patient..." class="search-input">
+        <button class="search-btn"><ion-icon name="search-outline"></ion-icon></button>
+    </div>
+    
+    <div class="patients-table">
+        <div class="table-header">
+            <div class="header-item">Nom</div>
+            <div class="header-item">Prénom</div>
+            <div class="header-item">Âge</div>
+            <div class="header-item">Actions</div>
+        </div>
+
+        {% for patient in patients %}
+        <div class="table-row animate-fade-in" style="--delay: {{ loop.index0 * 0.1 }}s">
+            <div class="row-item">{{ patient.nom }}</div>
+            <div class="row-item">{{ patient.prenom }}</div>
+            <div class="row-item">{{ patient.age }} ans</div>
+            <div class="row-item">
+                <a href="{{ url_for('patient', id=patient.id) }}" class="btn-details">Détails</a>
+                <a href="{{ url_for('modifier_patient', id=patient.id) }}" class="btn-modifier">Modifier</a>
+                <a href="{{ url_for('supprimer_patient', id=patient.id) }}" class="btn-supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce patient ?')">Supprimer</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

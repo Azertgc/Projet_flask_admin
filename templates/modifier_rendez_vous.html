@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="modifier-rv-section">
+    <h2 class="section-title">Modifier un rendez-vous</h2>
+
+    <form method="POST" class="rv-form">
+        <div class="form-group">
+            <label for="patient_id">Patient</label>
+            <select id="patient_id" name="patient_id" required class="input-field">
+                <option value="">Sélectionner un patient</option>
+                {% for patient in patients %}
+                <option value="{{ patient.id }}" {% if patient.id == rv.patient_id %}selected{% endif %}>{{ patient.prenom }} {{ patient.nom }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="medecin_id">Médecin</label>
+            <select id="medecin_id" name="medecin_id" required class="input-field">
+                <option value="">Sélectionner un médecin</option>
+                {% for medecin in medecins %}
+                <option value="{{ medecin.id }}" {% if medecin.id == rv.medecin_id %}selected{% endif %}>{{ medecin.prenom }} {{ medecin.nom }} - {{ medecin.specialite }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="date">Date et heure</label>
+            <input type="datetime-local" id="date" name="date" required class="input-field" value="{{ rv.date.strftime('%Y-%m-%dT%H:%M') }}">
+        </div>
+
+        <div class="form-group">
+            <label for="effectue">Statut</label>
+            <select id="effectue" name="effectue" class="input-field">
+                <option value="false" {% if not rv.effectue %}selected{% endif %}>À venir</option>
+                <option value="true" {% if rv.effectue %}selected{% endif %}>Effectué</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="notes">Notes</label>
+            <textarea id="notes" name="notes" class="input-field" rows="4">{{ rv.notes }}</textarea>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-save">Enregistrer</button>
+            <a href="{{ url_for('dashboard') }}" class="btn-cancel">Annuler</a>
+        </div>
+    </form>
+</section>
+{% endblock %}

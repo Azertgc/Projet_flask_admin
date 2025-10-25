@@ -1,0 +1,66 @@
+<!-- C:\Users\LENOVO\Desktop\projet_santé_admin\projet_santé_admin\templates\base.html
+ --><!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ministère de la Santé - Côte d'Ivoire</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-shape">
+                    <span>S</span>
+                </div>
+                <h1>Santé<span>CI</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('dashboard') }}" class="{{ 'active' if request.endpoint == 'dashboard' else '' }}">Tableau de bord</a></li>
+                    <li><a href="{{ url_for('liste_medecins') }}" class="{{ 'active' if request.endpoint == 'liste_medecins' else '' }}">Médecins</a></li>
+                    <li><a href="{{ url_for('liste_patients') }}" class="{{ 'active' if request.endpoint == 'liste_patients' else '' }}">Patients</a></li>
+                    <li><a href="{{ url_for('ajouter_rendez_vous') }}" class="{{ 'active' if request.endpoint == 'ajouter_rendez_vous' else '' }}">Nouveau RDV</a></li>
+                    <li><a href="{{ url_for('ajouter_medecin') }}" class="{{ 'active' if request.endpoint == 'ajouter_medecin' else '' }}">Ajouter Médecin</a></li>
+                    {% if 'logged_in' in session %}
+                    <li><a href="{{ url_for('logout') }}">Déconnexion</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash flash-{{ category }} animate-flash">
+                            {{ message }}
+                            <span class="close-flash">&times;</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <p>&copy;Santé ++ - Côte d'Ivoire</p>
+            <div class="footer-links">
+                <a href="#">Confidentialité xxxxx</a>
+                <a href="#">Conditions xxxxx</a>
+                <a href="#">Contact xxxxx</a>
+            </div>
+        </div>
+    </footer>
+
+    
+</body>
+</html>

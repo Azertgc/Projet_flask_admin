@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="ajouter-rv-section">
+    <h2 class="section-title">Ajouter un rendez-vous</h2>
+
+    <form method="POST" class="rv-form">
+        <div class="form-group">
+            <label for="patient_id">Patient</label>
+            <select id="patient_id" name="patient_id" required class="input-field">
+                <option value="">Sélectionner un patient</option>
+                {% for patient in patients %}
+                <option value="{{ patient.id }}">{{ patient.prenom }} {{ patient.nom }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="medecin_id">Médecin</label>
+            <select id="medecin_id" name="medecin_id" required class="input-field">
+                <option value="">Sélectionner un médecin</option>
+                {% for medecin in medecins %}
+                <option value="{{ medecin.id }}">{{ medecin.prenom }} {{ medecin.nom }} - {{ medecin.specialite }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="date">Date et heure</label>
+            <input type="datetime-local" id="date" name="date" required class="input-field">
+        </div>
+
+        <div class="form-group">
+            <label for="notes">Notes</label>
+            <textarea id="notes" name="notes" class="input-field" rows="4"></textarea>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-save">Ajouter</button>
+            <a href="{{ url_for('dashboard') }}" class="btn-cancel">Annuler</a>
+        </div>
+    </form>
+</section>
+{% endblock %}

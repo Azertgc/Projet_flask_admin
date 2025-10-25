@@ -1,0 +1,47 @@
+<!-- C:\Users\LENOVO\Desktop\projet_santé_admin\projet_santé_admin\templates\patient.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<section class="patient-section">
+    <div class="patient-header">
+        <div class="patient-avatar">
+            <div class="avatar-shape">
+                {{ patient.prenom[0] }}{{ patient.nom[0] }}
+            </div>
+        </div>
+        
+        <div class="patient-info">
+            <h2>{{ patient.prenom }} {{ patient.nom }}</h2>
+            <p class="patient-age">{{ patient.age }} ans</p>
+        </div>
+    </div>
+    
+    <div class="patient-details">
+        <h3>Historique des rendez-vous</h3>
+        
+        {% if rendez_vous %}
+        <div class="rv-timeline">
+            {% for rv in rendez_vous %}
+            <div class="rv-item animate-slide-right" style="--delay: {{ loop.index0 * 0.1 }}s">
+                <div class="rv-date">
+                    <div class="date-shape">
+                        {{ rv.date_formatted.split(' ')[0] }}
+                    </div>
+                </div>
+                
+                <div class="rv-content">
+                    <h4>Consultation avec Dr. {{ rv.medecin_nom }}</h4>
+                    <p class="rv-time">{{ rv.date_formatted.split(' ')[1] }}</p>
+                    <p class="rv-status {{ 'effectue' if rv.effectue else 'a-venir' }}">
+                        {{ 'Effectué' if rv.effectue else 'À venir' }}
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="no-rv">Aucun rendez-vous enregistré pour ce patient.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

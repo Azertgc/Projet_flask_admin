@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="modifier-patient-section">
+    <h2 class="section-title">Modifier un patient</h2>
+
+    <form method="POST" class="patient-form">
+        <div class="form-group">
+            <label for="nom">Nom</label>
+            <input type="text" id="nom" name="nom" required class="input-field" value="{{ patient.nom }}">
+        </div>
+
+        <div class="form-group">
+            <label for="prenom">Prénom</label>
+            <input type="text" id="prenom" name="prenom" required class="input-field" value="{{ patient.prenom }}">
+        </div>
+
+        <div class="form-group">
+            <label for="age">Âge</label>
+            <input type="number" id="age" name="age" required class="input-field" value="{{ patient.age }}">
+        </div>
+
+        <div class="form-group">
+            <label for="telephone">Téléphone</label>
+            <input type="tel" id="telephone" name="telephone" class="input-field" value="{{ patient.telephone }}">
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" class="input-field" value="{{ patient.email }}">
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-save">Enregistrer</button>
+            <a href="{{ url_for('liste_patients') }}" class="btn-cancel">Annuler</a>
+        </div>
+    </form>
+</section>
+{% endblock %}
