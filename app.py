@@ -62,51 +62,12 @@ def init_db():
         db.create_all()
 
         # Vérifier si des données existent déjà
-        if Medecin.query.first() is None:
+        if Utilisateur.query.filter_by(username='admin').first() is None:
             # Créer un utilisateur admin
             admin = Utilisateur(username='admin')
             admin.set_password('sante123')
             db.session.add(admin)
-
-            # Ajouter des médecins
-            medecins_data = [
-                {"nom": "Koné", "prenom": "Ahmadou", "specialite": "Cardiologie", "cabinet": "Cabinet A", "disponibilites": "Lundi,Mercredi,Vendredi"},
-                {"nom": "Diop", "prenom": "Fatou", "specialite": "Pédiatrie", "cabinet": "Cabinet B", "disponibilites": "Mardi,Jeudi"},
-                {"nom": "Yao", "prenom": "Koffi", "specialite": "Dermatologie", "cabinet": "Cabinet C", "disponibilites": "Lundi,Mardi,Mercredi,Jeudi,Vendredi"}
-            ]
-
-            for m_data in medecins_data:
-                medecin = Medecin(**m_data)
-                db.session.add(medecin)
-
-            # Ajouter des patients
-            patients_data = [
-                {"nom": "Touré", "prenom": "Mariam", "age": 32},
-                {"nom": "Kouassi", "prenom": "Jean", "age": 45},
-                {"nom": "Bamba", "prenom": "Awa", "age": 28},
-                {"nom": "Soro", "prenom": "Yves", "age": 60}
-            ]
-
-            for p_data in patients_data:
-                patient = Patient(**p_data)
-                db.session.add(patient)
-
             db.session.commit()
-
-            # Ajouter des rendez-vous
-            rendez_vous_data = [
-                {"patient_id": 1, "medecin_id": 2, "date": datetime(2024, 12, 15, 10, 0), "effectue": True},
-                {"patient_id": 3, "medecin_id": 1, "date": datetime(2024, 12, 20, 14, 30), "effectue": False},
-                {"patient_id": 2, "medecin_id": 3, "date": datetime(2024, 12, 22, 9, 15), "effectue": False},
-                {"patient_id": 4, "medecin_id": 2, "date": datetime(2024, 12, 25, 11, 45), "effectue": False}
-            ]
-
-            for rv_data in rendez_vous_data:
-                rv = RendezVous(**rv_data)
-                db.session.add(rv)
-
-            db.session.commit()
-            print("Base de données initialisée avec succès!")
 
 # Routes
 @app.route('/')
@@ -296,7 +257,7 @@ def ajouter_rendez_vous():
         date_str = request.form.get('date')
         notes = request.form.get('notes')
 
-        date = datetime.fromisoformat(date_str)
+        date = datetime.strptime(date_str, '%Y-%m-%dT%H:%M')
 
         rv = RendezVous(patient_id=patient_id, medecin_id=medecin_id, date=date, notes=notes)
         db.session.add(rv)
@@ -399,7 +360,7 @@ def modifier_rendez_vous(id):
         rv.patient_id = request.form.get('patient_id')
         rv.medecin_id = request.form.get('medecin_id')
         date_str = request.form.get('date')
-        rv.date = datetime.fromisoformat(date_str)
+        rv.date = datetime.strptime(date_str, '%Y-%m-%dT%H:%M')
         rv.notes = request.form.get('notes')
         rv.effectue = 'effectue' in request.form
         db.session.commit()
