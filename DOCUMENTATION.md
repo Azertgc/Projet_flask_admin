@@ -238,11 +238,7 @@ Pour contribuer au projet :
 2. Créer une branche pour vos modifications
 3. Commiter vos changements
 4. Pousser vers votre fork
-5. Créer une Pull Request
-
-## Licence
-
-Ce projet est sous licence MIT. Voir le fichier LICENSE pour plus de détails.
+5. Créer une Pull Requestf
 
 ## Support
 
